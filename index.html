@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  .compass {
+    background-color: #16161d;
+    width: 800px;
+    height: 800px;
+    border-radius: 50%;
+    position: relative;
+  }
+
+  .north {
+    color: #fff;
+    font-size: 4rem;
+    position: absolute;
+    background-color: transparent;
+    top: 0%;
+    left: 50%;
+  }
+
+  .south {
+    color: #fff;
+    font-size: 4rem;
+    position: absolute;
+    background-color: transparent;
+    top: 90%;
+    left: 50%;
+  }
+
+  .east {
+    color: #fff;
+    font-size: 4rem;
+    position: absolute;
+    background-color: transparent;
+    align-items: flex-end;
+    top: 50%;
+    left: 0%;
+  }
+
+  .west {
+    color: #fff;
+    font-size: 4rem;
+    background-color: transparent;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 90%;
+  }
+
+  .sui {
+    width: 2px;
+    background: #fff;
+    height: 40%;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform-origin: bottom;
+    transition: all 2s ease;
+  }
+
+  /* .compass:hover .sui {
+    transform: rotate(360deg);
+  } */
+
+  #sui {
+    display: none;
+  }
+
+  #sui:checked+.sui {
+    transform: rotate(360deg);
+
+  }
+</style>
+
+<body>
+  <label for="sui">
+
+    <div class="compass">
+      <div class="compass north" data-content="N">N</div>
+      <div class="compass south">S</div>
+      <div class="compass east">E</div>
+      <div class="compass west">W</div>
+      <input type="checkbox" name="" id="sui">
+      <div class="sui"></div>
+    </div>
+  </label>
+</body>
+<script>
+  let sensor = new Accelerometer();
+  sensor.start();
+
+  sensor.onreading = () => {
+    console.log("Acceleration along X-axis: " + sensor.x);
+    console.log("Acceleration along Y-axis: " + sensor.y);
+    console.log("Acceleration along Z-axis: " + sensor.z);
+  }
+
+  sensor.onerror = event => console.log(event.error.name, event.error.message);
+
+
+  let sensor = new GravitySensor({
+    frequency: 5,
+    referenceFrame: "screen"
+  });
+
+  sensor.onreading = () => {
+    if (sensor.y >= 9.8) {
+      console.log("Web page is perpendicular to the ground.");
+    }
+  }
+
+  sensor.start();
+
+  const shakeThreshold = 25;
+
+  let sensor = new LinearAccelerationSensor({
+    frequency: 60
+  });
+
+  sensor.addEventListener('reading', () => {
+    if (sensor.x > shakeThreshold) {
+      console.log("Shake detected.");
+    }
+  });
+
+  sensor.start();
+
+  let acl = new Accelerometer({
+    frequency: 60
+  });
+
+  acl.addEventListener('reading', () => {
+    console.log("Acceleration along the X-axis " + acl.x);
+    console.log("Acceleration along the Y-axis " + acl.y);
+    console.log("Acceleration along the Z-axis " + acl.z);
+  });
+
+  acl.start();
+</script>
+
+</html>
