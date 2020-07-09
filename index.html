@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>compass</title>
 </head>
 <style>
   .compass {
@@ -104,32 +104,32 @@
   sensor.onerror = event => console.log(event.error.name, event.error.message);
 
 
-  let sensor = new GravitySensor({
-    frequency: 5,
-    referenceFrame: "screen"
-  });
+  // // let sensor2 = new GravitySensor({
+  // //   frequency: 5,
+  // //   referenceFrame: "screen"
+  // // });
 
-  sensor.onreading = () => {
-    if (sensor.y >= 9.8) {
-      console.log("Web page is perpendicular to the ground.");
-    }
-  }
+  // // sensor2.onreading = () => {
+  // //   if (sensor2.y >= 9.8) {
+  // //     console.log("Web page is perpendicular to the ground.");
+  // //   }
+  // // }
 
-  sensor.start();
+  // sensor2.start();
 
   const shakeThreshold = 25;
 
-  let sensor = new LinearAccelerationSensor({
+  let sensor1 = new LinearAccelerationSensor({
     frequency: 60
   });
 
-  sensor.addEventListener('reading', () => {
-    if (sensor.x > shakeThreshold) {
+  sensor1.addEventListener('reading', () => {
+    if (sensor1.x > shakeThreshold) {
       console.log("Shake detected.");
     }
   });
 
-  sensor.start();
+  sensor1.start();
 
   let acl = new Accelerometer({
     frequency: 60
@@ -142,6 +142,17 @@
   });
 
   acl.start();
+
+  function handleMotionEvent(event) {
+
+    var x = event.accelerationIncludingGravity.x;
+    var y = event.accelerationIncludingGravity.y;
+    var z = event.accelerationIncludingGravity.z;
+
+    // Do something awesome.
+  }
+
+  window.addEventListener("devicemotion", handleMotionEvent, true);
 </script>
 
 </html>
